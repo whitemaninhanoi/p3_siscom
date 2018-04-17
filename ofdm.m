@@ -1,6 +1,6 @@
 function ofdm( arch, modo, modul )
 
-  [ v, fs ] = audioread( arch, 'native' );
+    [ v, fs ] = audioread( arch, 'native' );
 
     dt = 1/fs;
     longV = length( v ) * dt;
@@ -8,20 +8,21 @@ function ofdm( arch, modo, modul )
 
     time = 0:dt:endV;
 
-  plotOriginal( time, v );
+    plotOriginal( time, v );
 
-  [ div, modulation ] = setProperties( modo, modul );
-  [ v, newVector ] = getNewVector( v, modulation );
+    [ div, modulation ] = setProperties( modo, modul );
+    [ v ] = getNewVector( v, modulation );
 
-  v = mapmodul(v, modo, modul);
+    v = mapmodul(v, modo, modul);
 
-  Ym = getInvFT(v, div);
+    Ym = getInvFT(v, div);
 
-  plotModulated(Ym, fs, modo);
-
+    plotModulated(Ym, fs, modo, modul);
+    clc;
+    clear;
 end
 
-function [ v, newVector ] = getNewVector( v, modulation )
+function [ v ] = getNewVector( v, modulation )
 
   d2b = uint8(dec2bin(v) - '0');
   binaryVector = reshape(d2b.',[],1);
@@ -57,27 +58,40 @@ end
 
 function plotOriginal( time, v )
 
-  figure;
+  figure(1);
   subplot(211);
   plot(time,v);
   title('Senal original');
+  xlabel('t(s)');
+  ylabel('Amplitud');
 
 end
 
-function plotModulated( Ym, fs, modo )
+function plotModulated( Ym, fs, modo, modul )
 
-  longYm = length(Ym);
+    figure(1);
+    longYm = length(Ym);
 
-  t = linspace(0,longYm/fs,longYm);
+    t = linspace(0,longYm/fs,longYm);
 
-  subplot(212);
-  plot(t,Ym);
+    subplot(212);
+    plot(t,Ym);
+    if modul == 1
+      modulacion = "QAM";
+    else
+      modulacion = "QPSK";
+    end
 
-  if(modo == 0)
+    t = strcat('Señal modulada - ', modulacion);
+    title(t);
+    xlabel('t(s)');
+    ylabel('Amplitud');
+
+    if(modo == 0)
     axis([0 .25 -0.05 0.05]);
-  elseif(modo == 1)
+    elseif(modo == 1)
     axis([0 1 -0.1 0.1]);
-  end
+    end
 
 end
 
