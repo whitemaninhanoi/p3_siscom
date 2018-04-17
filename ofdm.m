@@ -13,7 +13,7 @@ function ofdm( arch, modo, modul )
   [ div, modulation ] = setProperties( modo, modul );
   [ v, newVector ] = getNewVector( v, modulation );
 
-  v = mapmodul(v);
+  v = mapmodul(v, modo, modul);
 
   Ym = getInvFT(v, div);
 
@@ -97,23 +97,30 @@ function Ym = getInvFT( v, div )
 
 end
 
-function [ v ] = mapmodul( v )
+function [ v ] = mapmodul( v, modo, modul )
 
-  v(v==0) = complex(1, 1);
-  v(v==1) = complex(-1, 1);
-  v(v==10) = complex(-1, -1);
-  v(v==11) = complex(1, -1);
-  v(v==100) = complex(3, 1);
-  v(v==101) = complex(1, 3);
-  v(v==110) = complex(3, 3);
-  v(v==111) = complex(-3, 1);
-  v(v==1000) = complex(-3, 3);
-  v(v==1001) = complex(-1, 3);
-  v(v==1010) = complex(-3, -1);
-  v(v==1011) = complex(-3, -3);
-  v(v==1100) = complex(-1, -3);
-  v(v==1101) = complex(3, -1);
-  v(v==1110) = complex(1, -3);
-  v(v==1111) = complex(3, -3);
+  if (modul == 1)
+    v(v==0) = (1+1j);
+    v(v==1) = (-1+1j);
+    v(v==10) = (-1-1j);
+    v(v==11) = (1-1j);
+    v(v==100) = (3+1j);
+    v(v==101) = (1+3j);
+    v(v==110) = (3+3j);
+    v(v==111) = (-3+1j);
+    v(v==1000) = (-3+3j);
+    v(v==1001) = (-1+3j);
+    v(v==1010) = (-3-1j);
+    v(v==1011) = (-3-3j);
+    v(v==1100) = (-1-3j);
+    v(v==1101) = (3-1j);
+    v(v==1110) = (1-3j);
+    v(v==1111) = (3-3j);
+  elseif (modul == 0)
+    v(v==0) = (1+1j);
+    v(v==1) = (1-1j);
+    v(v==10) = (-1-1j);
+    v(v==11) = (1-1j);
+  end
 
 end
