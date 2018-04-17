@@ -15,7 +15,7 @@ function ofdm( arch, modo, modul )
 
   v = setV(v);
 
-  Ym = getInverseTF(v, div);
+  Ym = getInvFT(v, div);
 
   plotModulated(Ym, fs, modo);
 
@@ -81,7 +81,7 @@ function plotModulated( Ym, fs, modo )
 
 end
 
-function Ym = getInverseTF( v, div )
+function Ym = getInvFT( v, div )
 
   invFourier = ifft(v);
     an = real(invFourier);
