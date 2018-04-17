@@ -8,4 +8,5 @@
 %       0 -  QPSK
 %       1 -  16-QAM
 
-ofdm('cancion.wav',1 , 1);
+ofdm('_sample.wav',0, 1);
+ 
