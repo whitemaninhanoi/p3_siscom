@@ -13,7 +13,7 @@ function ofdm( arch, modo, modul )
   [ div, modulation ] = setProperties( modo, modul );
   [ v, newVector ] = getNewVector( v, modulation );
 
-  v = setV(v);
+  v = mapmodul(v);
 
   Ym = getInvFT(v, div);
 
@@ -97,7 +97,7 @@ function Ym = getInvFT( v, div )
 
 end
 
-function [ v ] = setV( v )
+function [ v ] = mapmodul( v )
 
   v(v==0) = complex(1, 1);
   v(v==1) = complex(-1, 1);
